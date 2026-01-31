@@ -1,0 +1,58 @@
+<div>Teachable Machine Image Model (Upload Image)</div>
+
+<label for="image-upload" style="cursor:pointer; padding:8px 16px; background:#444; color:#fff; border-radius:4px;">
+    เลือกภาพ
+</label>
+<input id="image-upload" type="file" accept="image/*" onchange="handleImageUpload(event)" style="display:none;">
+
+<div id="label-container"></div>
+
+<!-- img ซ่อนไว้ ใช้แค่เป็นตัวกลางให้ model.predict -->
+<img id="hidden-image" style="display:none;">
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+
+<script type="text/javascript">
+    const URL = "https://teachablemachine.withgoogle.com/models/DMdA8xgkn/";
+
+    let model;
+
+    window.onload = async () => {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+
+        model = await tmImage.load(modelURL, metadataURL);
+    };
+
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const img = document.getElementById("hidden-image");
+            img.src = e.target.result;
+
+            img.onload = async () => {
+                await predict(img);
+            };
+        };
+        reader.readAsDataURL(file);
+    }
+
+    async function predict(imageElement) {
+        const prediction = await model.predict(imageElement);
+
+        // หา class ที่ probability สูงสุด
+        let bestPrediction = prediction[0];
+        for (let i = 1; i < prediction.length; i++) {
+            if (prediction[i].probability > bestPrediction.probability) {
+                bestPrediction = prediction[i];
+            }
+        }
+
+        document.getElementById("label-container").innerHTML =
+            bestPrediction.className + " : " + bestPrediction.probability.toFixed(2);
+    }
+</script>
