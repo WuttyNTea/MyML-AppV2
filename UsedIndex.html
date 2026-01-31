@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Tab Website</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="home">Home</button>
+        <button class="tab-btn" data-tab="check">Check</button>
+        <button class="tab-btn" data-tab="about">About Us</button>
+    </div>
+
+    <div id="home" class="content active">
+        <h2>Home</h2>
+        <p>
+            ยินดีต้อนรับสู่หน้า Home  
+            หน้านี้ไม่มีอะไรซับซ้อน แค่อยู่ตรงกลางและดูดีพอไม่อายใคร
+        </p>
+    </div>
+
+    <div id="check" class="content">
+        <h2>Check</h2>
+        <div>Teachable Machine Image Model (Upload Image)</div>
+
+        <label for="image-upload" class="upload-btn">
+            เลือกภาพ
+        </label>
+        <input id="image-upload" type="file" accept="image/*">
+
+        <div id="label-container"></div>
+
+        <img id="hidden-image" style="display:none;">
+    </div>
+
+    <div id="about" class="content">
+        <h2>About Us</h2>
+        <p>
+            เราคือเว็บไซต์ตัวอย่างแบบ tab menu  
+            โครงสร้างชัดเจน แยกไฟล์เป็น และไม่ทำให้คนมาแก้ต่ออยากร้องไห้
+        </p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
